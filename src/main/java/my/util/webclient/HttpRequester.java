@@ -9,6 +9,7 @@ import java.util.Map;
 public interface HttpRequester {
     String ContentType = "Content-Type";
     String JSONType = "application/json";
+    String UTF_8 = "UTF-8";
     HttpResult submit(String url, String body, Map<String, String> customHeaders) throws Exception;
     HttpResult submit(String url, String body, Map<String, String> customHeaders, int timeout) throws Exception;
 }

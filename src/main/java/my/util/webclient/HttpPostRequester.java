@@ -7,6 +7,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -14,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,6 +34,16 @@ public class HttpPostRequester implements HttpRequester {
     }
 
     private int timeout;
+
+    private ContentType contentType;
+
+    public org.apache.http.entity.ContentType getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(org.apache.http.entity.ContentType contentType) {
+        this.contentType = contentType;
+    }
 
     @Override
     public HttpResult submit(String url, String body, Map<String, String> customHeaders) throws Exception {
@@ -55,7 +67,8 @@ public class HttpPostRequester implements HttpRequester {
             }
 
             if (!StringUtils.isBlank(body)) {
-                StringEntity postEntity = new StringEntity(body);
+                org.apache.http.entity.ContentType contentType = getContentType() != null ? getContentType() : org.apache.http.entity.ContentType.APPLICATION_JSON;
+                StringEntity postEntity = new StringEntity(body, contentType);
                 post.setEntity(postEntity);
             }
             if (null != customHeaders && customHeaders.size() > 0){
