@@ -12,4 +12,5 @@ public interface HttpRequester {
     String UTF_8 = "UTF-8";
     HttpResult submit(String url, String body, Map<String, String> customHeaders) throws Exception;
     HttpResult submit(String url, String body, Map<String, String> customHeaders, int timeout) throws Exception;
+    HttpResult submit(String url, Map<String, String> parameters, Map<String, String> customHeaders, int timeout) throws Exception;
 }
